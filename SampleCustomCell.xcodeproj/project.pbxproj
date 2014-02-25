@@ -26,6 +26,8 @@
 		A4176F1318BCC01E008C5212 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4176EEB18BCC01E008C5212 /* CoreData.framework */; };
 		A4176F1B18BCC01E008C5212 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = A4176F1918BCC01E008C5212 /* InfoPlist.strings */; };
 		A4176F1D18BCC01E008C5212 /* SampleCustomCellTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A4176F1C18BCC01E008C5212 /* SampleCustomCellTests.m */; };
+		A4176F2818BCC11A008C5212 /* CustomCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A4176F2718BCC11A008C5212 /* CustomCell.m */; };
+		A4176F2B18BCC151008C5212 /* SubCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A4176F2A18BCC151008C5212 /* SubCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +65,10 @@
 		A4176F1818BCC01E008C5212 /* SampleCustomCellTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "SampleCustomCellTests-Info.plist"; sourceTree = "<group>"; };
 		A4176F1A18BCC01E008C5212 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		A4176F1C18BCC01E008C5212 /* SampleCustomCellTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SampleCustomCellTests.m; sourceTree = "<group>"; };
+		A4176F2618BCC11A008C5212 /* CustomCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CustomCell.h; path = 001_Views/CustomCell.h; sourceTree = "<group>"; };
+		A4176F2718BCC11A008C5212 /* CustomCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CustomCell.m; path = 001_Views/CustomCell.m; sourceTree = "<group>"; };
+		A4176F2918BCC151008C5212 /* SubCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SubCell.h; path = 001_Views/SubCell.h; sourceTree = "<group>"; };
+		A4176F2A18BCC151008C5212 /* SubCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SubCell.m; path = 001_Views/SubCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,6 +139,10 @@
 				A4176F0318BCC01E008C5212 /* FTMasterViewController.m */,
 				A4176F0518BCC01E008C5212 /* FTDetailViewController.h */,
 				A4176F0618BCC01E008C5212 /* FTDetailViewController.m */,
+				A4176F2618BCC11A008C5212 /* CustomCell.h */,
+				A4176F2718BCC11A008C5212 /* CustomCell.m */,
+				A4176F2918BCC151008C5212 /* SubCell.h */,
+				A4176F2A18BCC151008C5212 /* SubCell.m */,
 				A4176F0818BCC01E008C5212 /* Images.xcassets */,
 				A4176EFF18BCC01E008C5212 /* SampleCustomCell.xcdatamodeld */,
 				A4176EEE18BCC01E008C5212 /* Supporting Files */,
@@ -270,6 +280,8 @@
 			files = (
 				A4176F0418BCC01E008C5212 /* FTMasterViewController.m in Sources */,
 				A4176F0118BCC01E008C5212 /* SampleCustomCell.xcdatamodeld in Sources */,
+				A4176F2B18BCC151008C5212 /* SubCell.m in Sources */,
+				A4176F2818BCC11A008C5212 /* CustomCell.m in Sources */,
 				A4176F0718BCC01E008C5212 /* FTDetailViewController.m in Sources */,
 				A4176EF818BCC01E008C5212 /* FTAppDelegate.m in Sources */,
 				A4176EF418BCC01E008C5212 /* main.m in Sources */,

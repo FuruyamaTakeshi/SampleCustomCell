@@ -9,9 +9,14 @@
 #import "FTMasterViewController.h"
 
 #import "FTDetailViewController.h"
+#import "CustomCell.h"
+#import "SubCell.h"
 
-@interface FTMasterViewController ()
+@interface FTMasterViewController () <CustomCellDelegate>
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
+@property (nonatomic) NSArray *items;
+@property (nonatomic) NSMutableArray *subItems;
+@property (nonatomic) BOOL isOpen;
 @end
 
 @implementation FTMasterViewController
@@ -34,6 +39,13 @@
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
     self.navigationItem.rightBarButtonItem = addButton;
     self.detailViewController = (FTDetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
+    
+    self.items = @[@"hoge", @"piyo", @"fuga"];
+    self.subItems = [NSMutableArray array];
+    
+    NSArray *initalArray = @[@"child1", @"child2", @"child3", @"child4"];
+    self.subItems = [initalArray mutableCopy];
+    self.isOpen = NO;
 }
 
 - (void)didReceiveMemoryWarning
@@ -44,42 +56,46 @@
 
 - (void)insertNewObject:(id)sender
 {
-    NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-    NSEntityDescription *entity = [[self.fetchedResultsController fetchRequest] entity];
-    NSManagedObject *newManagedObject = [NSEntityDescription insertNewObjectForEntityForName:[entity name] inManagedObjectContext:context];
-    
-    // If appropriate, configure the new managed object.
-    // Normally you should use accessor methods, but using KVC here avoids the need to add a custom class to the template.
-    [newManagedObject setValue:[NSDate date] forKey:@"timeStamp"];
-    
-    // Save the context.
-    NSError *error = nil;
-    if (![context save:&error]) {
-         // Replace this implementation with code to handle the error appropriately.
-         // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. 
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }
+    NSInteger number = rand()%100;
+    [self.subItems addObject:[NSString stringWithFormat:@"subItem-%d", number]];
 }
 
 #pragma mark - Table View
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return [[self.fetchedResultsController sections] count];
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    id <NSFetchedResultsSectionInfo> sectionInfo = [self.fetchedResultsController sections][section];
-    return [sectionInfo numberOfObjects];
+    if (self.isOpen) {
+        return self.items.count + self.subItems.count;
+    } else {
+        return self.items.count;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
-    [self configureCell:cell atIndexPath:indexPath];
-    return cell;
+    static NSString *CellIdentifier;
+    UITableViewCell *cell;
+    if (self.isOpen) {
+        if (indexPath.row > 0 && indexPath.row <= self.subItems.count) {
+            CellIdentifier = @"SubCell";
+            SubCell *subCell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            [self configureSubCell:subCell atIndexPath:indexPath];
+            return subCell;
+        } else {
+            cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+            [self configureCell:cell atIndexPath:indexPath];
+            return cell;
+        }
+    } else {
+        CustomCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+        [self configureCell:cell atIndexPath:indexPath];
+        return cell;
+    }
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -226,10 +242,31 @@
 }
  */
 
-- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
+- (void)configureCell:(CustomCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    NSManagedObject *object = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    cell.textLabel.text = [[object valueForKey:@"timeStamp"] description];
+    if (indexPath.row == 0) {
+        cell.button.hidden = NO;
+    }
+    if (self.isOpen) {
+        if (indexPath.row == 0) {
+            cell.customCellLabel.text = self.items[0];
+        } else {
+            cell.customCellLabel.text = self.items[indexPath.row-self.subItems.count];
+        }
+    } else {
+        cell.customCellLabel.text = self.items[indexPath.row];
+    }
+    cell.delegate = self;
+}
+
+- (void)configureSubCell:(SubCell *)cell atIndexPath:(NSIndexPath *)indexPath
+{
+    cell.subCellLabel.text = self.subItems[indexPath.row-1];
+}
+- (void)cellButtonDidPush:(id)sender
+{
+    self.isOpen = !self.isOpen;
+    [self.tableView reloadData];
 }
 
 @end
